@@ -1,0 +1,71 @@
+adhd
+ai
+algorithm
+algorithm-design
+android
+big-data
+biography
+blockchain
+breath
+buddhism
+business
+christianity
+cooking
+creativity
+death
+diabetes
+drawing
+economics
+entrepreneurship
+essays
+fiction
+finance
+focus
+forensics
+go programming
+goal setting
+habits
+health
+history
+imagery
+inspiration
+investing
+jobs
+journaling
+learning
+marketing
+mathematics
+memory
+mental health
+mindfulness
+mindmap
+miscellaneous
+negotiation
+nlp
+nonfiction
+philosophy
+poetry
+prison
+productivity
+public speaking
+psychology
+python
+reading
+religion
+research
+science
+self-help
+self-improvement    
+socialism
+software
+spirituality
+suicide
+startups
+stress
+success
+technology
+time management
+visualization
+world history & affairs
+writing
+

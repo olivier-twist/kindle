@@ -450,7 +450,7 @@ The Pathless Path: Imagining a New Story For Work and Life
 
 Millerd, Paul
 
-Million Dollar Dads: Highly Successful Entrepreneurs Share the Best Advice & Secrets for Mastering Work-Life Balance (Million Dollar Story Book 4)
+Million Dollar Dads: Highly Successful Entrepreneurs Share the Best Advice & Secrets for Mastering Work-Life Balance 4)
 
 Anderson, Preston; Baden, Chris; Beer, Eric; Golden, James; Loughlin, Cody; Putman, Evans; Sheikh, Akbar
 
@@ -688,7 +688,6 @@ McCarrick, Charles D.
 
 A Practical Guide to NLP for Work: Influence, Impact, Succeed (Practical Guide Series)
 
-Prime Reading
 Lowther, Dianne
 
 The Billionaire Who Wasn't: How Chuck Feeney Secretly Made and Gave Away a Fortune
@@ -781,7 +780,6 @@ Hall, Erika
 
 Passive Income Freedom + Influencer Fast Track + Online Marketing Boot Camp: 3 Book Box Set from the Influencer Fast Track Series (Influencer Fast Track® Series)
 
-Prime Reading
 Gabrielle, Gundi
 
 Ultimate Memory Magic: The Transformative Program for Sharper Memory, Mental Clarity, and Greater Focus . . . at Any Age!
@@ -1114,7 +1112,6 @@ Jones, Ben
 
 A Year Without the Grocery Store: A Step by Step Guide to Acquiring, Organizing, and Cooking Food Storage
 
-Prime Reading
 Morris, Karen
 
 Designing for Behavior Change: Applying Psychology and Behavioral Economics
@@ -1375,12 +1372,10 @@ Moubeche, Guillaume
 
 The Mexican Home Kitchen: Traditional Home-Style Recipes That Capture the Flavors and Memories of Mexico
 
-Prime Reading
 Martínez, Mely
 
 Purpose First Entrepreneur: Discover Your Purpose, Turn It into a Thriving Business, Perform at an Elite Level
 
-Prime Reading
 Wilkins, Pete
 
 The Best American Science and Nature Writing 2014 (The Best American Series)
@@ -1769,7 +1764,6 @@ Corpeño, Eduardo
 
 Hit Refresh: The Quest to Rediscover Microsoft's Soul and Imagine a Better Future for Everyone
 
-Prime Reading
 Nadella, Satya; Shaw, Greg; Nichols, Jill Tracie
 
 The Mom Test: How to talk to customers & learn if your business is a good idea when everyone is lying to you
@@ -2410,7 +2404,6 @@ Ejsmont, Artur
 
 Orient Express
 
-Prime Reading
 Greene, Graham
 
 Combinatorial Algorithms: Enlarged Second Edition (Dover Books on Computer Science)
@@ -2460,10 +2453,6 @@ Tan, Chade-Meng; Goleman, Daniel; Kabat-Zinn, Jon
 The great Ayurveda cookbook: Enjoy authentic, simple Indian & Sri Lankan cuisine for detoxification, self-healing and more zest for life. 180 recipes, Dosha test and yoga exercises for a better well
 
 Martin, Kevin
-
-How to Prove It: A Structured Approach
-
-Velleman, Daniel J.
 
 The Best American Short Stories 2019 (The Best American Series ®)
 
@@ -2832,10 +2821,6 @@ Dispenza, Joe
 SYSTEMology: Create time, reduce errors and scale your profits with proven business systems
 
 Jenyns, David
-
-The Complete Harvard Classics - ALL 71 Volumes: The Five Foot Shelf & The Shelf of Fiction: The Famous Anthology of the Greatest Works of World Literature
-
-Franklin, Benjamin; Woolman, John; Penn, William; Plato; Epictetus; Aurelius, Marcus; Bacon, Francis; Milton, John; Browne, Thomas; Emerson, Ralph Waldo; Burns, Robert; Augustine, Saint; Kempis, Thomas à; Aeschylus; Sophocles; Euripides; Aristophanes; Cicero, Marcus Tullius; Younger, Pliny the; Smith, Adam; Darwin, Charles; Plutarch; Virgil; de Cervantes, Miguel; Bunyan, John; Walton, Izaak; Aesop; Grimm, Wilhelm; Grimm, Jacob; Andersen, Hans Christian; Dryden, John; Sheridan, Richard Brinsley; Garrick, David; Goldsmith, Oliver; Shelley, Percy Bysshe; Browning, Robert; Byron, George Gordon; von Goethe, Johann Wolfgang; Marlowe, Christopher; Alighieri, Dante; Manzoni, Alessandro; Homer; Dana, Richard Henry; Burke, Edmund; Mill, John Stuart; Carlyle, Thomas; de la Barca, Pedro Calderón; Corneille, Pierre; Racine, Jean; Molière; Lessing, Gotthold Ephraim; von Schiller, Friedrich; Sidney, Philip; Jonson, Ben; Cowley, Abraham; Addison, Joseph; Steele, Richard; Swift, Jonathan; Defoe, Daniel; Johnson, Samuel; Smith, Sydney; Coleridge, Samuel Taylor; Hazlitt, William; Hunt, Leigh; Lamb, Charles; De Quincey, Thomas; Macaulay, Thomas Babington; Thackeray, William Makepeace; Ruskin, John; Stevenson, Robert Louis; Poe, Edgar Alan; Thoreau, Henry David; Lowell, James Russell; Faraday, Michael; von Helmholtz, Hermann Ludwig Ferdinand; Newcomb, Simon; Geikie, Archibald; Cellini, Benvenuto; de Montaigne, Michel; Sainte-Beuve, Charles Augustin; Renan, Ernest; Kant, Immanuel; Mazzini, Giuseppe; Herodotus; Tacitus; Drake, Francis; Nichols, Philip; Pretty, Francis; Bigges, Walter; Haies, Edward; Raleigh, Walter; Descartes, René; Voltaire; Rousseau, Jean Jacques; Hobbes, Thomas; Froissart, Jean; Malory, Thomas; Harrison, William Henry; Machiavelli, Niccolo; Roper, William; More, Thomas; Luther, Martin; Locke, John; Berkeley, George; Hippocrates; Paré, Ambroise; Harvey, William; Holmes, Oliver Wendell; Lister, Joseph; Pasteur, Louis; Shakespeare, William; Dekker, Thomas; Beaumont, Francis; Fletcher, John; Webster, John; Massinger, Philip; Pascal, Blaise; Eliot, Charles W.; Neilson, William A.; Fielding, Henry; Sterne, Laurence; Austen, Jane; Scott, Walter; Dickens, Charles; Eliot, George; Hawthorne, Nathaniel; Irving, Washington; Harte, Bret; Twain, Mark; Hale, Edward Everett; James, Henry; Hugo, Victor; Balzac, Honoré; Sand, George; de Musset, Alfred; Daudet, Alphonse; Keller, Gottfried; de Maupassant, Guy; Storm, Theodor; Fontane, Theodor; Tolstoy, Leo; Dostoevsky, Fyodor; Turgenev, Ivan; Valera, Juan; Bjørnson, Bjørnstjerne; Kielland, Alexander L.
 
 Breath: The New Science of a Lost Art
 
@@ -3439,7 +3424,6 @@ Greene, Graham
 
 Writing to Learn: How to Write - and Think - Clearly About Any Subject at All
 
-Prime Reading
 Zinsser, William
 
 How to Cook Everything: The Basics: All You Need to Make Great Food--With 1,000 Photos: A Beginner Cookbook (How to Cook Everything Series 2)
@@ -6138,10 +6122,6 @@ The Iliad
 
 Homer
 
-The Odyssey
-
-Homer; Pope, Alexander; Homer; Pope, Alexander
-
 The Lady with the Dog and Other Stories
 
 Chekhov, Anton Pavlovich
@@ -6729,10 +6709,6 @@ Milton, John
 The Poetical Works of Alexander Pope, Volume 1
 
 Pope, Alexander
-
-The Iliad
-
-Homer
 
 The Odyssey
 

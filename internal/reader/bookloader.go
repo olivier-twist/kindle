@@ -3,6 +3,7 @@ package reader
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -58,4 +59,23 @@ func ReadBooksFromFileSystem(path string) ([]common.Book, error) {
 	}
 	return books, nil
 
+}
+
+func GetBooksFromJsonFile(path string) ([]common.Book, error) {
+	file, err := os.ReadFile(path)
+
+	if err != nil {
+		log.Printf("Failed to retrieve tag file")
+		return nil, err
+	}
+
+	var books []common.Book
+
+	err = json.Unmarshal(file, &books)
+	if err != nil {
+		log.Printf("Failed to unmarshal file %s into an array of tags ", path)
+		return nil, err
+	}
+
+	return books, nil
 }
