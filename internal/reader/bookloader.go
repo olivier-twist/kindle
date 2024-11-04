@@ -15,7 +15,7 @@ import (
 // ReadBooksFromFileSystem reads the list of books from the file system.
 // path is the file path where the book files are located.
 // This code is throw away as it is specific to a given file.
-func ReadBooksFromFileSystem(path string) ([]common.Book, error) {
+func ReadBooksFromTxtFile(path string) ([]common.Book, error) {
 	books := make([]common.Book, 0, 600)
 
 	if strings.TrimSpace(path) == "" {

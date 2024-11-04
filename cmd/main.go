@@ -26,6 +26,41 @@ func GetFilePath(filename string) (string, error) {
 	return filepath, nil
 }
 
+/*
+func main() {
+	godotenv.Load()
+	db_user := os.Getenv("DB_USER")
+	db_pwd := os.Getenv("DB_PWD")
+	bookPath, err := GetFilePath("book_list.txt")
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+
+	books, err := reader.ReadBooksFromTxtFile(bookPath)
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+
+	//database driver
+	db, err := sql.Open("mysql", db_user+":"+db_pwd+"@tcp(127.0.0.1:3306)/book")
+
+	if err != nil {
+		log.Fatalf("**%v", err)
+	}
+
+	defer db.Close()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := db.PingContext(ctx); err != nil {
+		log.Fatalf("Unable to connect to database: %v", err)
+	}
+	err = dbops.InsertBooks(db, books)
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+}
+*/
+
 func main() {
 	godotenv.Load()
 	apiKey := os.Getenv("OPENAPI_KEY")

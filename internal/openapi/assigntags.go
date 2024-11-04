@@ -10,6 +10,7 @@ import (
 	"os"
 	"reflect"
 	"sort"
+	"strings"
 
 	"github.com/olivier-twist/kindle/internal/common"
 )
@@ -36,7 +37,7 @@ func preparePrompt(books []common.Book, tags []common.Tag) string {
 						Tags:
 						%s
 
-						Given a list of books, each defined by an id, title, and one or more authors, find relevant information about each book online using OpenAPI. Analyze the content, themes, genre, and topics associated with each book. Based on this analysis, return a map where each book title is a key, and the corresponding value is a set of tag  that best describe the book’s content and themes. Add a fiction tag if the genre is fiction. Each tag id corresponds to a predefined list of tags in the format {id: int, tag: string}`, booksJSON, tagsJSON)
+						Given a list of books, each defined by an id, title, and one or more authors, find relevant information about each book online using OpenAPI. Analyze the content, themes, genre, and topics associated with each book. Return output is map[string][]string. The map key is the book title and the value is the set of strinngs  that best describe the book’s content and themes.`, booksJSON, tagsJSON)
 
 	return prompt
 }
@@ -115,8 +116,8 @@ func parseBookTagResponse(response string) (map[string][]string, error) {
 	var m map[string][]string = make(map[string][]string)
 
 	if err := json.Unmarshal([]byte(response), &responseJSON); err != nil {
-		return m, fmt.Errorf("parseBookTag: could not unmarshal response:%v %v\n\n %v",
-			responseJSON, err, response)
+		return m, nil /*fmt.Errorf("parseBookTag: could not unmarshal response:%v %v\n\n %v",
+		responseJSON, err, response)*/
 	}
 
 	for k, v := range responseJSON {
@@ -138,7 +139,7 @@ func parseBookTagResponse(response string) (map[string][]string, error) {
 
 				//continue
 			}
-			m[k] = append(m[k], val)
+			m[k] = append(m[k], strings.ToLower(val))
 		}
 	}
 	return m, nil
