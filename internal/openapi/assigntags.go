@@ -133,10 +133,10 @@ func parseBookTagResponse(response string) (map[string][]string, error) {
 			val, ok := v1.(string)
 			if !ok {
 				fmt.Printf("v1 is not a string: %v %v\n\n", v1, reflect.TypeOf(v1))
-				/*	return m, fmt.Errorf("parseBookTag: could not unmarshal response:%v %v\n\n %v",
-					responseJSON, err, response)
-				*/
-				continue
+				return m, fmt.Errorf("parseBookTag: could not unmarshal response:%v ",
+					responseJSON)
+
+				//continue
 			}
 			m[k] = append(m[k], val)
 		}
