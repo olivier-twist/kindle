@@ -23,7 +23,7 @@ func ReadBooksFromTxtFile(path string) ([]common.Book, error) {
 		return nil, fmt.Errorf("invalid empty file path")
 	}
 
-	file, err := os.OpenFile(path, os.O_RDONLY, 0644)
+	file, err := os.OpenFile(path, os.O_RDONLY, 0600)
 	if err != nil {
 		log.Printf("%s", err)
 		return nil, fmt.Errorf("failed to open file %s", path)
