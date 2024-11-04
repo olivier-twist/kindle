@@ -71,6 +71,7 @@ func main() {
 	db_user := os.Getenv("DB_USER")
 	db_pwd := os.Getenv("DB_PWD")
 
+	//Commented out code loads ALL the books.
 	//	bookPath, err := GetFilePath("book.jsonl")
 
 	//	if err != nil {
