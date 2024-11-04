@@ -10,8 +10,6 @@ import (
 func InsertBooks(db *sql.DB, books []common.Book) error {
 
 	stmt, err := db.Prepare("Insert into BOOK (AUTHOR, TITLE) VALUES (?, ?)")
-
-	fmt.Printf("Helloooo")
 	if err != nil {
 		return fmt.Errorf("Unable to prepare statement %v", err)
 	}
@@ -58,11 +56,12 @@ func InsertBookTags(db *sql.DB, book_tag map[string][]string) error {
 		return fmt.Errorf("Failed to create Prepared Statement for book tag insertion : %v", err)
 	}
 	defer stmt.Close()
+
 	for book, tags := range book_tag {
 		for _, tag := range tags {
 			_, err = stmt.Exec(book, tag)
 			if err != nil {
-				return fmt.Errorf("Failed to insert book tag %v error - %v", book, err)
+				return fmt.Errorf("Failed to insert book tag %v - %v error - %v", book, tag, err)
 			}
 		}
 	}

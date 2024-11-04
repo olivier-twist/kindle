@@ -6,10 +6,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"mime/multipart"
 	"net/http"
 	"os"
-	"path/filepath"
+	"reflect"
 	"sort"
 
 	"github.com/olivier-twist/kindle/internal/common"
@@ -21,70 +20,6 @@ const (
 )
 
 var openapi_key = os.Getenv("OPENAPI_KEY")
-
-// UploadFile uploads a file to OpenApi
-func UploadFile(apiKey, filePath, purpose string) error {
-	// Open the file to upload
-	file, err := os.Open(filePath)
-	if err != nil {
-		return fmt.Errorf("could not open file: %v", err)
-	}
-	defer file.Close()
-
-	// Create a buffer to hold the form data
-	body := &bytes.Buffer{}
-	writer := multipart.NewWriter(body)
-
-	// Add the file to the form
-	part, err := writer.CreateFormFile("file", filepath.Base(filePath))
-	if err != nil {
-		return fmt.Errorf("could not create form file: %v", err)
-	}
-
-	// Copy the file content to the form file
-	_, err = io.Copy(part, file)
-	if err != nil {
-		return fmt.Errorf("could not copy file content: %v", err)
-	}
-
-	// Add the purpose field (required by OpenAI)
-	err = writer.WriteField("purpose", purpose)
-	if err != nil {
-		return fmt.Errorf("could not write purpose field: %v", err)
-	}
-
-	// Close the writer to finalize the form data
-	writer.Close()
-
-	// Prepare the request
-	url := "https://api.openai.com/v1/files"
-	req, err := http.NewRequest("POST", url, body)
-	if err != nil {
-		return fmt.Errorf("could not create request: %v", err)
-	}
-
-	// Set headers
-	req.Header.Set("Content-Type", writer.FormDataContentType())
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", apiKey))
-
-	// Execute the request
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return fmt.Errorf("could not send request: %v", err)
-	}
-	defer resp.Body.Close()
-
-	// Check the response
-	if resp.StatusCode != http.StatusOK {
-		respBody, _ := io.ReadAll(resp.Body)
-		return fmt.Errorf("failed to upload file, status: %v, response: %s", resp.Status, respBody)
-	}
-
-	// Print success message
-	fmt.Println("File uploaded successfully")
-	return nil
-}
 
 // preparePrompt generates a prompt string for the API request
 func preparePrompt(books []common.Book, tags []common.Tag) string {
@@ -107,7 +42,14 @@ func preparePrompt(books []common.Book, tags []common.Tag) string {
 }
 
 // Assign Tags to Books
-func AssignTagsToBooks(apiKey string, books []common.Book, tags []common.Tag) (string, error) {
+func AssignTagsToBooks(apiKey string, books []common.Book, tags []common.Tag) (map[string][]string, error) {
+	if len(books) == 0 || len(tags) == 0 {
+		return nil, nil
+	}
+	if apiKey == "" {
+		return nil, fmt.Errorf("API key is empty")
+	}
+
 	// Prepare the prompt with book and tag data
 	prompt := preparePrompt(books, tags)
 
@@ -119,13 +61,13 @@ func AssignTagsToBooks(apiKey string, books []common.Book, tags []common.Tag) (s
 		},
 	})
 	if err != nil {
-		return "", fmt.Errorf("could not create request body: %v", err)
+		return nil, fmt.Errorf("could not create request body: %v", err)
 	}
 
 	// Prepare the HTTP request
 	req, err := http.NewRequest("POST", "https://api.openai.com/v1/chat/completions", bytes.NewBuffer(requestBody))
 	if err != nil {
-		return "", fmt.Errorf("could not create request: %v", err)
+		return nil, fmt.Errorf("could not create request: %v", err)
 	}
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", apiKey))
@@ -134,34 +76,71 @@ func AssignTagsToBooks(apiKey string, books []common.Book, tags []common.Tag) (s
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return "", fmt.Errorf("could not send request: %v", err)
+		return nil, fmt.Errorf("could not send request: %v", err)
 	}
 	defer resp.Body.Close()
 
 	// Check the response status and read the body
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return "", fmt.Errorf("could not read response body: %v", err)
+		return nil, fmt.Errorf("could not read response body: %v", err)
 	}
 
 	if resp.StatusCode != http.StatusOK {
 		// Print the error message from the API
-		return "", fmt.Errorf("failed to get response, status: %v, response: %s", resp.Status, string(body))
+		return nil, fmt.Errorf("failed to get response, status: %v, response: %s", resp.Status, string(body))
 	}
 
 	// Parse the response JSON
 	var response map[string]interface{}
 	if err := json.Unmarshal(body, &response); err != nil {
-		return "", fmt.Errorf("could not parse response: %v", err)
+		return nil, fmt.Errorf("AssignTagsToBook: could not unmarshal response: %v", err)
 	}
 
 	// Check if "choices" is in the response
 	choices, ok := response["choices"].([]interface{})
 	if !ok || len(choices) == 0 {
-		return "", fmt.Errorf("response does not contain choices: %v", response)
+		return nil, fmt.Errorf("response does not contain choices: %v", response)
 	}
 
 	// Extract the message content from the first choice
 	content := choices[0].(map[string]interface{})["message"].(map[string]interface{})["content"].(string)
-	return content, nil
+	return parseBookTagResponse(content)
+}
+
+// Parse the response String and return a map of book titles to tags
+func parseBookTagResponse(response string) (map[string][]string, error) {
+	// Parse the response JSON
+	var responseJSON map[string]interface{}
+	var m map[string][]string = make(map[string][]string)
+
+	if err := json.Unmarshal([]byte(response), &responseJSON); err != nil {
+		return m, fmt.Errorf("parseBookTag: could not unmarshal response:%v %v\n\n %v",
+			responseJSON, err, response)
+	}
+
+	for k, v := range responseJSON {
+		vinterface, ok := v.([]interface{})
+		if !ok {
+			fmt.Printf("v is not a []interface{}: %v %v\n\n", v, reflect.TypeOf(v))
+			continue
+		}
+		if len(vinterface) == 0 {
+			continue
+		}
+
+		for _, v1 := range v.([]interface{}) {
+			val, ok := v1.(string)
+			if !ok {
+				fmt.Printf("v1 is not a string: %v %v\n\n", v1, reflect.TypeOf(v1))
+				/*	return m, fmt.Errorf("parseBookTag: could not unmarshal response:%v %v\n\n %v",
+					responseJSON, err, response)
+				*/
+				continue
+			}
+			m[k] = append(m[k], val)
+		}
+	}
+	return m, nil
+
 }

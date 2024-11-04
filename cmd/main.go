@@ -1,12 +1,17 @@
 package main
 
 import (
+	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
+	"github.com/olivier-twist/kindle/internal/dbops"
 	"github.com/olivier-twist/kindle/internal/openapi"
 	"github.com/olivier-twist/kindle/internal/reader"
 )
@@ -21,45 +26,64 @@ func GetFilePath(filename string) (string, error) {
 	return filepath, nil
 }
 
-/*
 func main() {
-	apiKey := os.Getenv("OPENAPI_KEY")         // Replace with your OpenAI API key
-	filePath, err := GetFilePath("book.jsonl") // Replace with the path to your file
-	purpose := "user_data"                     // Replace with the purpose of the file, e.g., "fine-tune"
-
-	if err != nil {
-		log.Fatalf("%v", err)
-	}
-	err = openapi.UploadFile(apiKey, filePath, purpose)
-	if err != nil {
-		fmt.Printf("Error uploading file: %v\n", err)
-	} else {
-		fmt.Println("File uploaded successfully.")
-	}
-}
-*/
-
-func main() {
+	godotenv.Load()
 	apiKey := os.Getenv("OPENAPI_KEY")
+	db_user := os.Getenv("DB_USER")
+	db_pwd := os.Getenv("DB_PWD")
+
 	bookPath, err := GetFilePath("book.jsonl")
 
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
-	booksJSON, err := reader.GetBooksFromJsonFile(bookPath)
+	books, err := reader.GetBooksFromJsonFile(bookPath)
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
 
-	tags, err := GetFilePath("tag.jsonl")
-	tagsJSON, err := reader.GetTagsFromJsonFile(tags)
+	tagsPath, err := GetFilePath("tag.jsonl")
+	tags, err := reader.GetTagsFromJsonFile(tagsPath)
 	if err != nil {
 		log.Fatalf("%v", err)
 	}
 
-	res, err := openapi.AssignTagsToBooks(apiKey, booksJSON, tagsJSON)
+	increment := 10
+	len := len(books)
+	bottom := 0
+	top := increment
+
+	//database driver
+	db, err := sql.Open("mysql", db_user+":"+db_pwd+"@tcp(127.0.0.1:3306)/book")
+
 	if err != nil {
-		log.Fatalf("%v", err)
+		log.Fatalf("**%v", err)
 	}
-	fmt.Printf(res)
+
+	defer db.Close()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	if err := db.PingContext(ctx); err != nil {
+		log.Fatalf("Unable to connect to database: %v", err)
+	}
+
+	for {
+		// Update the books from 0 to len(books) in increments of 40
+		t := min(top, len)
+		res, err := openapi.AssignTagsToBooks(apiKey, books[bottom:t], tags)
+		if err != nil {
+			log.Fatalf("%v", err)
+		}
+		err = dbops.InsertBookTags(db, res)
+		if err != nil {
+			log.Fatalf("%v", err)
+		}
+
+		if t == len {
+			break
+		}
+		top += increment
+		bottom += increment
+	}
+
 }
