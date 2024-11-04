@@ -23,36 +23,29 @@ const (
 var openapi_key = os.Getenv("OPENAPI_KEY")
 
 // preparePrompt generates a prompt string for the API request
-func preparePrompt(books []common.Book, tags []common.Tag) string {
+func preparePrompt(books []common.Book) string {
 	sort.Sort(common.ById(books))
 	// Convert books and tags to JSON format for prompt
 	booksJSON, _ := json.Marshal(books)
-	tagsJSON, _ := json.Marshal(tags)
 
 	// Create the prompt
 	prompt := fmt.Sprintf(`Given the following array of books and array of tags:
 						Books:
 						%s
 
-						Tags:
-						%s
-
-						Given a list of books, each defined by an id, title, and one or more authors, find relevant information about each book online using OpenAPI. Analyze the content, themes, genre, and topics associated with each book. Return output is map[string][]string. The map key is the book title and the value is the set of strinngs  that best describe the book’s content and themes.`, booksJSON, tagsJSON)
+						Given a list of books, each defined by an id, title, and one or more authors, find relevant information about each book online. Analyze the content, themes, genre, and topics associated with each book. Return output is map[string][]string. The map key is the book title and the value is the set of strinngs  that best describe the book’s content and themes.`, booksJSON)
 
 	return prompt
 }
 
 // Assign Tags to Books
-func AssignTagsToBooks(apiKey string, books []common.Book, tags []common.Tag) (map[string][]string, error) {
-	if len(books) == 0 || len(tags) == 0 {
-		return nil, nil
-	}
+func AssignTagsToBooks(apiKey string, books []common.Book) (map[string][]string, error) {
 	if apiKey == "" {
 		return nil, fmt.Errorf("API key is empty")
 	}
 
-	// Prepare the prompt with book and tag data
-	prompt := preparePrompt(books, tags)
+	// Prepare the prompt with book data
+	prompt := preparePrompt(books)
 
 	// Set up the request payload
 	requestBody, err := json.Marshal(map[string]interface{}{
@@ -116,6 +109,7 @@ func parseBookTagResponse(response string) (map[string][]string, error) {
 	var m map[string][]string = make(map[string][]string)
 
 	if err := json.Unmarshal([]byte(response), &responseJSON); err != nil {
+		fmt.Printf("error: %v\n\n %v", err, response)
 		return m, nil /*fmt.Errorf("parseBookTag: could not unmarshal response:%v %v\n\n %v",
 		responseJSON, err, response)*/
 	}

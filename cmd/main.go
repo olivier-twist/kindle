@@ -67,26 +67,15 @@ func main() {
 	db_user := os.Getenv("DB_USER")
 	db_pwd := os.Getenv("DB_PWD")
 
-	bookPath, err := GetFilePath("book.jsonl")
+	//	bookPath, err := GetFilePath("book.jsonl")
 
-	if err != nil {
-		log.Fatalf("%v", err)
-	}
-	books, err := reader.GetBooksFromJsonFile(bookPath)
-	if err != nil {
-		log.Fatalf("%v", err)
-	}
-
-	tagsPath, err := GetFilePath("tag.jsonl")
-	tags, err := reader.GetTagsFromJsonFile(tagsPath)
-	if err != nil {
-		log.Fatalf("%v", err)
-	}
-
-	increment := 10
-	len := len(books)
-	bottom := 0
-	top := increment
+	//	if err != nil {
+	//log.Fatalf("%v", err)
+	//}
+	//books, err := reader.GetBooksFromJsonFile(bookPath)
+	//if err != nil {
+	//log.Fatalf("%v", err)
+	//	}
 
 	//database driver
 	db, err := sql.Open("mysql", db_user+":"+db_pwd+"@tcp(127.0.0.1:3306)/book")
@@ -94,7 +83,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("**%v", err)
 	}
-
 	defer db.Close()
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -102,10 +90,22 @@ func main() {
 		log.Fatalf("Unable to connect to database: %v", err)
 	}
 
+	books, err := reader.GetBooksToBeProcessed(db)
+
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+
+	increment := 40
+	len := len(books)
+	bottom := 0
+	top := increment
+
+	// Loop through the books in increments of 40
 	for {
 		// Update the books from 0 to len(books) in increments of 40
 		t := min(top, len)
-		res, err := openapi.AssignTagsToBooks(apiKey, books[bottom:t], tags)
+		res, err := openapi.AssignTagsToBooks(apiKey, books[bottom:t])
 		if err != nil {
 			log.Fatalf("%v", err)
 		}

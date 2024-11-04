@@ -3,6 +3,7 @@ package reader
 
 import (
 	"bufio"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -77,5 +78,25 @@ func GetBooksFromJsonFile(path string) ([]common.Book, error) {
 		return nil, err
 	}
 
+	return books, nil
+}
+
+func GetBooksToBeProcessed(db *sql.DB) ([]common.Book, error) {
+	books := make([]common.Book, 0, 600)
+	rows, err := db.Query("SELECT TITLE, AUTHOR FROM BOOK WHERE TITLE NOT IN (SELECT DISTINCT(BOOK) FROM BOOK_TAG)")
+
+	if err != nil {
+		log.Printf("Failed to retrieve tag file")
+		return nil, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var book common.Book
+		if err := rows.Scan(&book.Title, &book.Author); err != nil {
+			log.Printf("Failed to retrieve tag file")
+			return nil, err
+		}
+		books = append(books, book)
+	}
 	return books, nil
 }
