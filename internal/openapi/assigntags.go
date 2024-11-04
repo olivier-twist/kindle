@@ -7,20 +7,12 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"os"
 	"reflect"
 	"sort"
 	"strings"
 
 	"github.com/olivier-twist/kindle/internal/common"
 )
-
-const (
-	uploadURL         = "https://api.openai.com/v1/files"
-	chatCompletionURL = "https://api.openai.com/v1/chat/completions"
-)
-
-var openapi_key = os.Getenv("OPENAPI_KEY")
 
 // preparePrompt generates a prompt string for the API request
 func preparePrompt(books []common.Book) string {
@@ -88,7 +80,7 @@ func AssignTagsToBooks(apiKey string, books []common.Book) (map[string][]string,
 	// Parse the response JSON
 	var response map[string]interface{}
 	if err := json.Unmarshal(body, &response); err != nil {
-		return nil, fmt.Errorf("AssignTagsToBook: could not unmarshal response: %v", err)
+		return nil, fmt.Errorf("assignTagsToBook: could not unmarshal response: %v", err)
 	}
 
 	// Check if "choices" is in the response

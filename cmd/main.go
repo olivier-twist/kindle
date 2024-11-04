@@ -20,7 +20,7 @@ import (
 func GetFilePath(filename string) (string, error) {
 	rootDir, err := filepath.Abs(filepath.Dir("."))
 	if err != nil {
-		return "", fmt.Errorf("Unable to get rootdir")
+		return "", fmt.Errorf("unable to get rootdir")
 	}
 	filepath := filepath.Join(rootDir, "data", filename)
 	return filepath, nil
@@ -62,7 +62,11 @@ func main() {
 */
 
 func main() {
-	godotenv.Load()
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatalf("Could not load env file")
+	}
+
 	apiKey := os.Getenv("OPENAPI_KEY")
 	db_user := os.Getenv("DB_USER")
 	db_pwd := os.Getenv("DB_PWD")

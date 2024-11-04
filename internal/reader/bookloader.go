@@ -26,7 +26,7 @@ func ReadBooksFromTxtFile(path string) ([]common.Book, error) {
 	file, err := os.OpenFile(path, os.O_RDONLY, 0644)
 	if err != nil {
 		log.Printf("%s", err)
-		return nil, fmt.Errorf("Failed to open file %s", path)
+		return nil, fmt.Errorf("failed to open file %s", path)
 	}
 
 	defer file.Close()

@@ -11,7 +11,7 @@ func InsertBooks(db *sql.DB, books []common.Book) error {
 
 	stmt, err := db.Prepare("Insert into BOOK (AUTHOR, TITLE) VALUES (?, ?)")
 	if err != nil {
-		return fmt.Errorf("Unable to prepare statement %v", err)
+		return fmt.Errorf("unable to prepare statement %v", err)
 	}
 
 	defer stmt.Close()
@@ -20,12 +20,12 @@ func InsertBooks(db *sql.DB, books []common.Book) error {
 
 		_, err = stmt.Exec(book.Author, book.Title)
 		if err != nil {
-			return fmt.Errorf("Failed to insert book: %v %v", book, err)
+			return fmt.Errorf("failed to insert book: %v %v", book, err)
 		}
 	}
 
 	if err != nil {
-		return fmt.Errorf("Failed to insert book %v", err)
+		return fmt.Errorf("failed to insert book %v", err)
 	}
 
 	return nil
@@ -34,7 +34,7 @@ func InsertBooks(db *sql.DB, books []common.Book) error {
 func InsertTags(db *sql.DB, tags []string) error {
 	stmt, err := db.Prepare("INSERT INTO TAG (TAG) VALUES (?)")
 	if err != nil {
-		return fmt.Errorf("Failed to create Prepared Statement for tag insertion : %v", err)
+		return fmt.Errorf("failed to create Prepared Statement for tag insertion : %v", err)
 	}
 
 	defer stmt.Close()
@@ -43,7 +43,7 @@ func InsertTags(db *sql.DB, tags []string) error {
 		_, err = stmt.Exec(tag)
 
 		if err != nil {
-			return fmt.Errorf("Failed to insert tag %v error - %v", tag, err)
+			return fmt.Errorf("failed to insert tag %v error - %v", tag, err)
 		}
 	}
 
@@ -53,7 +53,7 @@ func InsertTags(db *sql.DB, tags []string) error {
 func InsertBookTags(db *sql.DB, book_tag map[string][]string) error {
 	stmt, err := db.Prepare("INSERT INTO BOOK_TAG (BOOK, TAG) VALUES (?, ?)")
 	if err != nil {
-		return fmt.Errorf("Failed to create Prepared Statement for book tag insertion : %v", err)
+		return fmt.Errorf("failed to create Prepared Statement for book tag insertion : %v", err)
 	}
 	defer stmt.Close()
 
@@ -61,7 +61,7 @@ func InsertBookTags(db *sql.DB, book_tag map[string][]string) error {
 		for _, tag := range tags {
 			_, err = stmt.Exec(book, tag)
 			if err != nil {
-				return fmt.Errorf("Failed to insert book tag %v - %v error - %v", book, tag, err)
+				return fmt.Errorf("failed to insert book tag %v - %v error - %v", book, tag, err)
 			}
 		}
 	}
